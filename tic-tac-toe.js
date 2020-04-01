@@ -180,6 +180,10 @@
     return GAME_RESULTS.winner === HUMAN_PLAYER ? 'You Win! :)' : 'You Lose :(';
   }
 
+
+  /**
+   * Refresh the game board
+   */
   function resetGame() {
     const cells = document.querySelectorAll('.Cell');
     
@@ -201,15 +205,22 @@
     GameEndOverlay.querySelector('.GameEndText').innerText = '';
   }
 
+  /**
+   * Return all the empty cells left on the game board 
+   */
   function getEmptyCells(gameBoard = GAME_BOARD) {
     return gameBoard.reduce((acc, curr, idx) => {
       return curr === '' ? acc.concat(idx) : acc;
     }, []);
   }
 
-
   /**
-   * Minmax Algorithm implemented with the help of the source below
+   * The Minimax algorithm is used to simulate the AI_PLAYER's move. This causes the AI_PLAYER
+   * to never lose.
+   * 
+   * Further reading: https://en.wikipedia.org/wiki/Minimax
+   * 
+   * Minimax Algorithm implemented with the help of the source below
    * source: https://github.com/CodeExplainedRepo/Tic-Tac-Toe-JavaScript/blob/master/TIC%20TAC%20TOE%20-%20FINAL%20CODE/game.js#L133
    */
   function minimax(gameBoard, player){
@@ -220,6 +231,7 @@
     // BASE
     if( isWinner(AI_PLAYER, gameBoard) ) return { evaluation : +10 };
     if( isWinner(HUMAN_PLAYER, gameBoard)) return { evaluation : -10 };
+    // There is a draw
     if( availableCells.length === 0) return { evaluation : 0 };
 
     // SAVE ALL MOVES AND THEIR EVALUATIONS
